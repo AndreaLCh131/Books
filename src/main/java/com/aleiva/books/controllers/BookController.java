@@ -1,6 +1,6 @@
 package com.aleiva.books.controllers;
 
-import com.aleiva.books.dto.BookDto;
+import com.aleiva.books.dto.BookDTO;
 import com.aleiva.books.models.Book;
 import com.aleiva.books.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,28 +18,28 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping
-    public ResponseEntity<List<Book>> getAllBooks(){
-        List<Book> books = bookService.getAllBooks();
-        return ResponseEntity.ok(books);
+    public ResponseEntity<List<BookDTO>> getAllBooks(){
+        List<BookDTO> booksDTO = bookService.getAllBooks();
+        return ResponseEntity.ok(booksDTO);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBook(@PathVariable("id") Long id){
-        Book book = bookService.getBookById(id);
-        if (book == null) {
+    public ResponseEntity<BookDTO> getBook(@PathVariable("id") Long id){
+        BookDTO bookDTO = bookService.getBookById(id);
+        if (bookDTO == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(book);
+        return ResponseEntity.ok(bookDTO);
     }
 
     @PostMapping
-    public ResponseEntity<Book> saveBook(@RequestBody Book book){
+    public ResponseEntity<BookDTO> saveBook(@RequestBody BookDTO bookDTO){
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(bookService.createBook(book));
+                .body(bookService.createBook(bookDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookDto> updateBook(@PathVariable("id") Long id, @RequestBody Book book){
+    public ResponseEntity<BookDTO> updateBook(@PathVariable("id") Long id, @RequestBody Book book){
         return ResponseEntity.ok(bookService.updateBook(id,book));
     }
 

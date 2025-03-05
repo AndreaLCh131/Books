@@ -48,14 +48,19 @@ public class BookService {
     public BookDTO updateBook(Long id, BookDTO bookDTO){
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Book with ID " + id + " not found"));
+
         List<Author> authors = bookDTO.getAuthors().stream()
                 .map(authorDTO -> authorRepository.findById(authorDTO.getId())
                         .orElseThrow(() -> new RuntimeException("Author not found")))
                 .collect(Collectors.toList());
-        book.setTitle(bookDTO.getName());
-        book.setAuthors(authors);
-        book = bookRepository.save(book);
 
+        book.setTitle(bookDTO.getName());
+        book.setYearOfPublication(bookDTO.getYearOfPublication());
+        book.setGenre(bookDTO.getGenre());
+        book.setQuantityAvailable(bookDTO.getQuantityAvailable());
+        book.setAuthors(authors);
+
+        book = bookRepository.save(book);
         return bookMapper.bookToBookDto(book);
     }
 

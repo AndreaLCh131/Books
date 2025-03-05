@@ -1,5 +1,7 @@
 package com.aleiva.books.services;
 
+import com.aleiva.books.dto.AuthorDTO;
+import com.aleiva.books.mapper.AuthorMapper;
 import com.aleiva.books.models.Author;
 import com.aleiva.books.repositories.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +15,11 @@ public class AuthorService {
 
     @Autowired
     private AuthorRepository authorRepository;
+    @Autowired
+    private AuthorMapper authorMapper;
 
-    public List<Author> getAllAuthors(){
-        return authorRepository.findAll();
+    public List<AuthorDTO> getAllAuthors(){
+        return authorMapper.authorsToAuthorDTOs(authorRepository.findAll());
     }
 
     public Author getAuthorById(Long id){

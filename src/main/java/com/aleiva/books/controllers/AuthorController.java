@@ -1,5 +1,6 @@
 package com.aleiva.books.controllers;
 
+import com.aleiva.books.dto.AuthorDTO;
 import com.aleiva.books.models.Author;
 import com.aleiva.books.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,9 @@ public class AuthorController {
     private AuthorService authorService;
 
     @GetMapping
-    public ResponseEntity<List<Author>> getAllAuthors(){
-        List<Author> authors = authorService.getAllAuthors();
-        return ResponseEntity.ok(authors);
+    public ResponseEntity<List<AuthorDTO>> getAllAuthors(){
+        List<AuthorDTO> authorsDTO = authorService.getAllAuthors();
+        return ResponseEntity.ok(authorsDTO);
     }
 
     @GetMapping("/{id}")

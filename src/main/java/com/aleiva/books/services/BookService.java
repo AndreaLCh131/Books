@@ -34,7 +34,6 @@ public class BookService {
     }
 
     public BookDTO createBook(BookDTO bookDTO){
-
         List<Author> authors = bookDTO.getAuthors().stream()
                 .map( authorDTO ->
                     authorRepository.findById(authorDTO.getId())
@@ -46,21 +45,18 @@ public class BookService {
         return bookMapper.bookToBookDto(book);
     }
 
-    public BookDTO updateBook(Long id, Book book){
-        return bookRepository.findById(id)
-                .map(b -> {
-                    b.setTitle(book.getTitle());
-                    b.setGenre(book.getGenre());
-                    b.setQuantityAvailable(book.getQuantityAvailable());
-                    b.setYearOfPublication(book.getYearOfPublication());
-                    book.getAuthors().forEach(author -> author.getBooks().add(b));
-                    b.setAuthors(book.getAuthors());
-                    Book book2 = bookRepository.save(b);
-                    BookDTO bookDto = new BookDTO();
-                    bookDto.setName(book2.getTitle());
-                    return bookDto;
-                })
+    public BookDTO updateBook(Long id, BookDTO bookDTO){
+        Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Book with ID " + id + " not found"));
+        List<Author> authors = bookDTO.getAuthors().stream()
+                .map(authorDTO -> authorRepository.findById(authorDTO.getId())
+                        .orElseThrow(() -> new RuntimeException("Author not found")))
+                .collect(Collectors.toList());
+        book.setTitle(bookDTO.getName());
+        book.setAuthors(authors);
+        book = bookRepository.save(book);
+
+        return bookMapper.bookToBookDto(book);
     }
 
     public void deleteBookById(Long id){

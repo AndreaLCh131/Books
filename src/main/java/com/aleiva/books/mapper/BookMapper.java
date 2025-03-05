@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { AuthorMapper.class })
 public interface BookMapper {
     BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
     @Mapping(source = "title", target = "name")

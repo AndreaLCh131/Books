@@ -24,12 +24,12 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Author> getAuthor(@PathVariable("id") Long id){
-        Author author = authorService.getAuthorById(id);
-        if (author == null) {
+    public ResponseEntity<AuthorDTO> getAuthor(@PathVariable("id") Long id){
+        AuthorDTO authorDTO = authorService.getAuthorById(id);
+        if (authorDTO == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(author);
+        return ResponseEntity.ok(authorDTO);
     }
 
     @PostMapping

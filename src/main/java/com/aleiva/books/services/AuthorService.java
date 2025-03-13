@@ -22,8 +22,10 @@ public class AuthorService {
         return authorMapper.authorsToAuthorDTOs(authorRepository.findAll());
     }
 
-    public Author getAuthorById(Long id){
-        return authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Author with ID " + id + " not found"));
+    public AuthorDTO getAuthorById(Long id){
+        Author author = authorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Author with ID " + id + " not found"));
+        return authorMapper.authorToAuthorDTO(author);
     }
 
     public Author createAuthor(Author author){
